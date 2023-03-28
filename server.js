@@ -1,57 +1,44 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const url = require("url");
+const fs = require('fs')
+const http = require('http');
+const path = require('path');
+const hostname = '127.0.0.1';
 
-// Creating server to accept request
-http.createServer((req, res) => {
+const experienceObj = require("./experience");
+const bannerObj = require("./banner");
+const carouselObj = require("./carousel")
+const reviewsObj = require("./reviews")
+const activitiesNatureObj = require("./activities-nature")
+console.log(activitiesNatureObj);
 
-    // Parsing the URL
-    var request = url.parse(req.url, true);
 
-    // Extracting the path of file
-    var action = request.pathname;
+function getRequestData(request) {
+    console.log(request.url);
+    if (request.url === '/experience') {
+        return JSON.stringify(experienceObj);
+    }
+    else if (request.url === '/banner') {
+        return JSON.stringify(bannerObj);
+    }
+    else if (request.url === '/carousel') {
+        return JSON.stringify(carouselObj)
+    }
+    else if (request.url === '/reviews') {
+        return JSON.stringify(reviewsObj)
+    }
+    else if (request.url === '/activitiesNature') {
+        return JSON.stringify(activitiesNatureObj)
+    }
+    else {
+        console.log("no data found");
+    }
+}
 
-    // Path Refinements
-    var filePath = path.join(__dirname,
-        action).split("%20").join(" ");
+const ourServer = http.createServer((request, response) => {
+    response.setHeader("Access-Control-Allow-Origin", "*")
+    response.end(getRequestData(request));
+});
 
-    // Checking if the path exists
-    fs.existsSync(filePath, function (exists) {
-
-        if (!exists) {
-            res.writeHead(404, {
-                "Content-Type": "text/plain"
-            });
-            res.end("404 Not Found");
-            return;
-        }
-
-        // Extracting file extension
-        var ext = path.extname(action);
-
-        // Setting default Content-Type
-        var contentType = "text/plain";
-
-        // Checking if the extension of
-        // image is '.png'
-        if (ext === ".png") {
-            contentType = "image/png";
-        }
-
-        // Setting the headers
-        res.writeHead(200, {
-            "Content-Type": contentType
-        });
-
-        // Reading the file
-        fs.readFile(filePath,
-            function (err, content) {
-                // Serving the image
-                res.end(content);
-            });
-    });
+let port = 8081
+ourServer.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
 })
-
-    // Listening to the PORT: 3000
-    .listen(3000, "127.0.0.1");
