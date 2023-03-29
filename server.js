@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs/promises')
 const http = require('http');
 const path = require('path');
 const hostname = '127.0.0.1';
@@ -8,12 +8,14 @@ const bannerObj = require("./banner");
 const carouselObj = require("./carousel")
 const reviewsObj = require("./reviews")
 const activitiesNatureObj = require("./activities-nature")
-console.log(activitiesNatureObj);
+const { parse } = require('querystring')
+
 
 
 function getRequestData(request) {
     console.log(request.url);
     if (request.url === '/experience') {
+        console.log(experienceObj);
         return JSON.stringify(experienceObj);
     }
     else if (request.url === '/banner') {
@@ -33,9 +35,38 @@ function getRequestData(request) {
     }
 }
 
+async function fileRead(formData) {
+    let dataFromFile = await fs.readFile("./formData.txt", "utf8");
+    dataFromFile = JSON.parse(dataFromFile)
+    dataFromFile.push(formData)
+    await fs.writeFile("./formData.txt", JSON.stringify(dataFromFile));
+
+}
+
 const ourServer = http.createServer((request, response) => {
-    response.setHeader("Access-Control-Allow-Origin", "*")
-    response.end(getRequestData(request));
+    try {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        let formData = "";
+        request.on("data", (formDataPeices) => {
+            // console.log(formDataPeices);
+            formData = formDataPeices.toString()
+            // console.log(formData);
+            // formData.push(formDataPeices);
+        });
+        request.on("end", () => {
+            let parsed = parse(formData)
+            console.log(parsed);
+            // let totalFormData = Buffer.concat(formData).toString();
+            if (Object.keys(parsed).length > 0) {
+                fileRead(parsed)
+            }
+        });
+        response.end(getRequestData(request));
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 let port = 8081

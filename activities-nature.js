@@ -10,13 +10,10 @@ const activitiesNatureObj = [
         cardSubHeading: "RECONNECT WITH NATURE",
         cardHeading: "Experience a truly unforgettable holiday",
         cardContent: "The wilderness and authenticity of this tiny village nestled between steep mountain cliffs and miles and miles of beautiful beaches drew foreign visitors like a magnet.",
-        list: [
-            {
-                item1: "Thermal water with ancient baths",
-                item2: "Turkish bath",
-                item3: "Turkish sauna",
-                item4: "Relax and therapy massage"
-            }
+        list: ["Thermal water with ancient baths",
+            "Turkish bath",
+            "Turkish sauna",
+            "Relax and therapy massage"
         ]
     }
 ]
