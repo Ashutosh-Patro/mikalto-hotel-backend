@@ -13,7 +13,7 @@ const carouselObj = [
     {
         imageURL: "",
         subHeading: "ELEGANCE AND COMFORT",
-        heading: "Luxury Room",
+        heading: "Dulex Room",
         rate: "From $250/night",
         description: "With wide and comfortable areas and daylight pouring in from the...",
         bed: "King Size Bed",

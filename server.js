@@ -13,9 +13,7 @@ const { parse } = require('querystring')
 
 
 function getRequestData(request) {
-    console.log(request.url);
     if (request.url === '/experience') {
-        console.log(experienceObj);
         return JSON.stringify(experienceObj);
     }
     else if (request.url === '/banner') {
@@ -56,7 +54,6 @@ const ourServer = http.createServer((request, response) => {
         });
         request.on("end", () => {
             let parsed = parse(formData)
-            console.log(parsed);
             // let totalFormData = Buffer.concat(formData).toString();
             if (Object.keys(parsed).length > 0) {
                 fileRead(parsed)
