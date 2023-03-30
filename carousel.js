@@ -1,6 +1,6 @@
 const carouselObj = [
     {
-        imageURL: "",
+        imageURL: "./images/hotel-rooms-carousel/standardRoom.jpg",
         subHeading: "ELEGANCE AND COMFORT",
         heading: "Standard Room",
         rate: "From $150/night",
@@ -11,7 +11,7 @@ const carouselObj = [
         view: "Garden View"
     },
     {
-        imageURL: "",
+        imageURL: "./images/hotel-rooms-carousel/dulexRoom.jpeg",
         subHeading: "ELEGANCE AND COMFORT",
         heading: "Dulex Room",
         rate: "From $250/night",

@@ -47,14 +47,10 @@ const ourServer = http.createServer((request, response) => {
         response.setHeader("Access-Control-Allow-Headers", "*");
         let formData = "";
         request.on("data", (formDataPeices) => {
-            // console.log(formDataPeices);
             formData = formDataPeices.toString()
-            // console.log(formData);
-            // formData.push(formDataPeices);
         });
         request.on("end", () => {
             let parsed = parse(formData)
-            // let totalFormData = Buffer.concat(formData).toString();
             if (Object.keys(parsed).length > 0) {
                 fileRead(parsed)
             }
